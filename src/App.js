@@ -1,6 +1,6 @@
-import "./App.css";
 import {Box, Button, Container, Heading, Link} from "@chakra-ui/react";
 import {useEffect, useRef, useState} from "react";
+import ring from "./assets/ring.wav";
 
 const FOCUS_KEY = "focus";
 const REST_KEY = "rest";
@@ -29,6 +29,7 @@ const formatTime = (timeInSeconds) => {
 
 function App() {
 
+  const ringSound = new Audio(ring);
   const [phase, setPhase] = useState(FOCUS_KEY);
   const [timeLeft, setTimeLeft] = useState(FOCUS_TIME);
   const [isRunning, setIsRunning] = useState(false);
@@ -55,6 +56,7 @@ function App() {
       intervalRef.current = setInterval(() => {
         setTimeLeft(prevState => {
           if (prevState <= 0) {
+            ringSound.play();
             setPhase(phase === FOCUS_KEY ? REST_KEY : FOCUS_KEY);
             setIsRunning(false);
             return phase === FOCUS_KEY ? REST_TIME : FOCUS_TIME;
